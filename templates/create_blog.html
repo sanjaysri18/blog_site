@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+  <title>Blog Website</title>
+  <link rel="stylesheet" type="text/css" href="create&edit.css">
+  <style>
+    /* Paste the CSS code provided in the previous response */
+/* Reset default styles and set font */
+/* Reset default styles and set font */
+/* Reset default styles and set font */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Header styling */
+h1 {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+  margin: 0;
+}
+
+/* Create post section styling */
+.create-post {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.create-post h2 {
+  margin: 0;
+}
+
+.create-post form input,
+.create-post form textarea {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.create-post form button {
+  padding: 8px 15px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Your posts section styling */
+.your-posts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.post {
+  width: 300px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.post h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.post p {
+  margin: 10px 0;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.post-actions a {
+  margin-left: 10px;
+  color: #333;
+  text-decoration: none;
+}
+.mypost{
+  text-align: center;
+}
+.logout-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #333;
+      color: #fff;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+}
+
+
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Blog Website</h1>
+  <button class="logout-btn"  onclick="window.location.href='/login'"><i class="fas fa-sign-out-alt" style="color:red"></i> Logout</button>
+
+  <div class="create-post">
+    <h2>Create New Post</h2>
+    <form action="/create-post" method="POST">
+      <input type="text" name="title" placeholder="Title" required>
+      <textarea name="content" placeholder="Content (max 300 words)" maxlength="300" required></textarea>
+      <input type="text" name="tags" placeholder="Tags (optional)">
+      <button type="submit">Create Post</button>
+    </form>
+  </div>
+  <h3 class="mypost">Your Posts</h3>
+  <div class="your-posts">
+    {% for post in posts %}
+      <div class="post">
+        <h2><strong>Title:</strong>{{ post[1] }}</h2>
+        <p><strong>Content:</strong>{{ post[2] }}</p>
+        <p><strong>Tags:</strong> {{ post[3] }}</p>
+        <p><strong>Id:</strong>{{post[0]}}</p>
+        <div class="post-actions"> 
+          <a href="/edit/{{post[0]}}">Edit</a> 
+          <a href="/delete-post/{{ post[0]}}">Delete</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  
+
+  <script>
+    // Add an event listener to the form submission
+    document.getElementById("create-post-form").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent the default form submission behavior
+      fetch("/create-blog", { method: "GET" })
+        .then(response => response.text())
+        .then(data => {
+          // Update the "your-posts" div with the newly created post
+          document.querySelector(".your-posts").innerHTML += data;
+        })
+        .catch(error => {
+          console.log("Error:", error);
+        });
+    });
+  </script>
+
+
+
+</body>
+</html>

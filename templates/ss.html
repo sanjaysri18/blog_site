@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blog Website</title>
+  <link rel="stylesheet" type="text/css" href="create&edit.css">
+  <style>
+    /* Paste the CSS code provided in the previous response */
+/* Reset default styles and set font */
+/* Reset default styles and set font */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Header styling */
+h1 {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+  margin: 0;
+}
+
+/* Container for posts */
+.posts-container {
+  display: flex;
+  padding: 20px;
+}
+
+/* Create post section styling */
+.create-post {
+  width: 400px;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.create-post h2 {
+  margin: 0;
+}
+
+.create-post form input,
+.create-post form textarea {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.create-post form button {
+  padding: 8px 15px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Your posts section styling */
+.your-posts {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.post {
+  width: 300px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.post h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.post p {
+  margin: 10px 0;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.post-actions a {
+  margin-left: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+
+
+
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Blog Website</h1>
+  
+  <div class="posts-container">
+    <div class="create-post">
+      <h2>Create New Post</h2>
+      <form action="/create-post" method="POST">
+        <input type="text" name="title" placeholder="Title" required>
+        <textarea name="content" placeholder="Content (max 300 words)" maxlength="300" required></textarea>
+        <input type="text" name="tags" placeholder="Tags (optional)">
+        <button type="submit">Create Post</button>
+      </form>
+    </div>
+    <div class="your-posts">
+      <!-- Existing posts will be dynamically added here -->
+    </div>
+  </div>
+
+  <!-- <script>
+    // Function to update the posts
+    function updatePosts() {
+      fetch('/edit-post/{post_index}')
+        .then(response => response.json())
+        .then(data => {
+          const postsContainer = document.querySelector('.your-posts');
+
+          // Clear the existing posts
+          postsContainer.innerHTML = '';
+
+          // Add the updated posts
+          data.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.classList.add('post');
+            postElement.innerHTML = `
+              <h2>${post.title}</h2>
+              <p>${post.content}</p>
+              <p><strong>Tags:</strong> ${post.tags}</p>
+              <div class="post-actions">
+                <a href="/edit-post/${post.id}">Edit</a>
+                <a href="/delete-post/${post.id}">Delete</a>
+              </div>
+            `;
+            postsContainer.appendChild(postElement);
+          });
+        })
+        .catch(error => {
+          console.log('Error:', error);
+        });
+    }
+
+    // Call the updatePosts function initially
+    updatePosts();
+  </script> -->
+</body>
+</html>

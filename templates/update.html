@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Post</title>
+  <style>
+    /* Reset some default styles */
+    body, h2, label, input, p, a {
+      margin: 0;
+      padding: 0;
+    }
+  
+    /* Basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      background-color: #f1f1f1;
+    }
+  
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      margin-top: 100px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  
+    .form-group {
+      margin-bottom: 20px;
+    }
+  
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+  
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+  
+    input[type="submit"] {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      cursor: pointer;
+    }
+  
+    p {
+      text-align: center;
+      margin-top: 20px;
+    }
+  
+    a {
+      color: #333;
+      text-decoration: none;
+    }
+  
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Edit Post</h2>
+    <form method="post" action="/edit-post/{{post_index}}">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+      </div>
+
+      <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea id="content" name="content" rows="4" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="tags">Tags:</label>
+        <input type="text" id="tags" name="tags" required>
+      </div>
+
+      <div class="form-group">
+        <input type="submit" value="Save">
+
+      </div>
+    </form>
+  </div>
+</body>
+</html>

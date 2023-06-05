@@ -141,7 +141,7 @@
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse,RedirectResponse
 from fastapi.templating import Jinja2Templates
-import mysql.connector
+import psycopg2
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -149,10 +149,11 @@ templates = Jinja2Templates(directory="templates")
 
 # Database connection configuration
 db_config = {
-    "host": "localhost",
+    "host": "dpg-chut0ofdvk4olit4e47g-a",
     "user": "ss",
-    "password": "Sanjay@123",
-    "database": "blog",
+    "password": "GyBmOCnKu7bRJwBk9udgGHIvXzBzp2Av",
+    "database": "blog_cun7",
+    "port":'5432'
 }
 message=""
 # Define the Post model
@@ -163,7 +164,7 @@ class Post(BaseModel):
 
 @app.get("/")
 def home():
-    return {"message": "Welcome to the signup page!"}
+    return templates.TemplateResponse("login.html", {"request": request, "message": ""})
 
 @app.get("/signup", response_class=HTMLResponse)
 def signup(request: Request):
@@ -171,7 +172,7 @@ def signup(request: Request):
 
 @app.post("/signup", response_class=HTMLResponse)
 def signup_post(request: Request, username: str = Form(...), email: str = Form(...), password: str = Form(...)):
-    connection = mysql.connector.connect(**db_config)
+    connection = psycopg2.connect(**db_config)
 
     try:
         cursor = connection.cursor()
@@ -180,7 +181,7 @@ def signup_post(request: Request, username: str = Form(...), email: str = Form(.
         connection.commit()
 
         message = "Signup successful"
-    except mysql.connector.Error as error:
+    except Exception as error:
         message = f"Error occurred: {error}"
     finally:
         cursor.close()
@@ -194,7 +195,7 @@ def login(request: Request):
 
 @app.post("/login", response_class=HTMLResponse)
 def login_post(request: Request, username: str = Form(...), password: str = Form(...)):
-    connection = mysql.connector.connect(**db_config)
+    connection = psycopg2.connect(**db_config)
 
     try:
         cursor = connection.cursor()
@@ -207,7 +208,7 @@ def login_post(request: Request, username: str = Form(...), password: str = Form
             return templates.TemplateResponse("create_blog.html", {"request": request, "message": message})
         else:
             message = "Invalid username or password"
-    except mysql.connector.Error as error:
+    except Exception as error:
         message = f"Error occurred: {error}"
     finally:
         cursor.close()
@@ -218,14 +219,14 @@ def login_post(request: Request, username: str = Form(...), password: str = Form
 
 @app.get("/create-blog", response_class=HTMLResponse)
 def create_blog(request: Request):
-    connection = mysql.connector.connect(**db_config)
+    connection = psycopg2.connect(**db_config)
 
     try:
         cursor = connection.cursor()
         select_query = "SELECT * FROM post"
         cursor.execute(select_query)
         posts = cursor.fetchall()
-    except mysql.connector.Error as error:
+    except Exception as error:
         post = post[1]
 
 
@@ -240,14 +241,14 @@ def create_blog(request: Request):
 
 @app.post("/create-post", response_class=HTMLResponse)
 def create_post(request: Request, title: str = Form(...), content: str = Form(...), tags: str = Form(...)):
-    connection = mysql.connector.connect(**db_config)
+    connection = psycopg2.connect(**db_config)
 
     try:
         cursor = connection.cursor()
         select_query = "SELECT * FROM post"
         cursor.execute(select_query)
         posts = cursor.fetchall()
-    except mysql.connector.Error as error:
+    except Exception as error:
         post = post[1]
         # message = f"Error occurred: {error}"
         
@@ -261,7 +262,7 @@ def create_post(request: Request, title: str = Form(...), content: str = Form(..
         cursor.execute(insert_query, (title, content, tags))
         connection.commit()
 
-    except mysql.connector.Error as error:
+    except Exception as error:
         message = f"Error occurred: {error}"
     finally:
         cursor.close()
@@ -283,14 +284,14 @@ def logout():
 
 @app.get("/delete-post/{post_index}", response_class=HTMLResponse)
 def delete_post(request: Request, post_index: int):
-    connection = mysql.connector.connect(**db_config)
+    connection = psycopg2.connect(**db_config)
     try:
         cursor = connection.cursor()
         insert_query = "delete from post where id=%s"
         cursor.execute(insert_query, (post_index,))
         connection.commit()
 
-    except mysql.connector.Error as error:
+    except Exception as error:
         message = f"Error occurred: {error}"
     
     try:
@@ -298,7 +299,7 @@ def delete_post(request: Request, post_index: int):
         select_query = "SELECT * FROM post"
         cursor.execute(select_query)
         posts = cursor.fetchall()
-    except mysql.connector.Error as error:
+    except Exception as error:
         post = post[1]
         # message = f"Error occurred: {error}"
         
@@ -316,7 +317,7 @@ def edit(request: Request,post_index: int):
 
 @app.post("/edit-post/{post_index}")
 def edit_post(request: Request,post_index: int,title: str = Form(...), content: str = Form(...), tags: str = Form(...)) :
-    connection = mysql.connector.connect(**db_config)
+    connection = psycopg2.connect(**db_config)
 
     try:
         cursor = connection.cursor()
@@ -327,7 +328,7 @@ def edit_post(request: Request,post_index: int,title: str = Form(...), content: 
         posts = cursor.fetchall()
         
 
-    except mysql.connector.Error as error:
+    except Exception as error:
         post = post[1]
         # message = f"Error occurred: {error}"
         
@@ -337,7 +338,7 @@ def edit_post(request: Request,post_index: int,title: str = Form(...), content: 
 
 
 def fetch_user_id():
-    connection = mysql.connector.connect(**db_config)
+    connection = psycopg2.connect(**db_config)
     user_id = cursor.fetchone()
 
     try:
@@ -346,7 +347,7 @@ def fetch_user_id():
         cursor.execute(query)
         user_id = cursor.fetchone()
 
-    except mysql.connector.Error as error:
+    except Execption as error:
         message = f"Error occurred: {error}"
     finally:
         cursor.close()

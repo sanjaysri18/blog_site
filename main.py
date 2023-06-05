@@ -148,11 +148,11 @@ templates = Jinja2Templates(directory="templates")
 
 # Database connection configuration
 db_config = {
-    "host": "dpg-chut0ofdvk4olit4e47g-a",
-    "user": "ss",
-    "password": "GyBmOCnKu7bRJwBk9udgGHIvXzBzp2Av",
-    "database": "blog_cun7",
-    "port":'5432'
+    host: "dpg-chut0ofdvk4olit4e47g-a",
+    user: "ss",
+    password: "GyBmOCnKu7bRJwBk9udgGHIvXzBzp2Av",
+    database: "blog_cun7",
+    port:'5432'
 }
 
 

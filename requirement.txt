@@ -3,6 +3,6 @@ uvicorn
 sqlmodel
 typer
 jinja2
-psycopg2
+mysql.connector
 pydantic
 python-multipart

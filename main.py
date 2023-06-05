@@ -15,7 +15,6 @@
 #     "password": "Sanjay@123",
 #     "database": "blog",
 # }
-
 # @app.get("/")
 # def home():
 #     return {"message": "Welcome to the signup page!"}
@@ -155,6 +154,22 @@ db_config = {
     "database": "blog_cun7",
     "port":'5432'
 }
+connection = psycopg2.connect(**db_config)
+
+    try:
+        cursor = connection.cursor()
+        insert_query = "create table if not exists iam_user(id serial primary key int,name,password,email)"
+        cursor.execute(insert_query)
+        connection.commit()
+        sql="create table if exists post(id serial primary key int,title,content,tags)"
+        cursor.execute(sql)
+        connection.commit()
+        message = "Database created"
+    except Exception as error:
+        message = f"Error occurred: {error}"
+    finally:
+        cursor.close()
+        connection.close()
 message=""
 # Define the Post model
 class Post(BaseModel):

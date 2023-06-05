@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+sqlmodel
+typer
+jinja2
+mysql.connector
+pydantic
